@@ -70,3 +70,4 @@ build/
 ############################################
 config.properties
 .env
+/nbproject/private/
