@@ -1,26 +1,16 @@
+package ui;
 
 import javax.swing.*;
-
-import ui.Dashboard;
-import ui.ManageCategory;
-import ui.ManageCustomers;
-import ui.ManageProduct;
-import ui.ManagePurchase;
-import ui.ManageSupplier;
-import ui.ManageUser;
-import ui.Report;
-import ui.StockMovement;
-
 import java.awt.*;
 
-public class Main extends JFrame {
+public class StaffMain extends JFrame {
 
     private JPanel contentPanel;
 
-    public Main() {
+    public StaffMain() {
         setTitle("Dashboard");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 700);
+        setExtendedState(Frame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
 
         // MAIN LAYOUT
@@ -52,20 +42,22 @@ public class Main extends JFrame {
         sidebar.setBackground(new Color(245, 245, 245));
 
         JButton btnDashboard = new JButton("Dashboard");
-        JButton btnUser = new JButton("Manage User");
+//        JButton btnUser = new JButton("Manage User");
         JButton btnSupplier = new JButton("Manage Supplier");
         JButton btnCategory = new JButton("Manage Category");
         JButton btnProduct = new JButton("Manage Product");
+        JButton btnOrder = new JButton("Manage Order");
         JButton btnPurchase = new JButton("Manage Purchase");
         JButton btnCustomers = new JButton("Manage Customers");
         JButton btnStock = new JButton("Stock movement");
         JButton btnReports = new JButton("Report");
 
         sidebar.add(btnDashboard);
-        sidebar.add(btnUser);
+//        sidebar.add(btnUser);
         sidebar.add(btnSupplier);
         sidebar.add(btnCategory);
         sidebar.add(btnProduct);
+        sidebar.add(btnOrder);
         sidebar.add(btnPurchase);
         sidebar.add(btnCustomers);
         sidebar.add(btnStock);
@@ -90,10 +82,11 @@ public class Main extends JFrame {
 
         // ===================== BUTTON ACTIONS =====================
         btnDashboard.addActionListener(e -> setContent(new Dashboard()));
-        btnUser.addActionListener(e -> setContent(new ManageUser()));
+//        btnUser.addActionListener(e -> setContent(new ManageUser()));
         btnSupplier.addActionListener(e -> setContent(new ManageSupplier()));
         btnCategory.addActionListener(e -> setContent(new ManageCategory()));
         btnProduct.addActionListener(e -> setContent(new ManageProduct()));
+        btnOrder.addActionListener(e -> setContent(new ManageOrder()));
         btnPurchase.addActionListener(e -> setContent(new ManagePurchase()));
         btnCustomers.addActionListener(e -> setContent(new ManageCustomers()));
         btnStock.addActionListener(e -> setContent(new StockMovement()));
@@ -110,7 +103,7 @@ public class Main extends JFrame {
         contentPanel.repaint();
     }
 
-    public static void main(String[] args) {
-        new Main();
-    }
+//    public static void main(String[] args) {
+//        new StaffMain();
+//    }
 }

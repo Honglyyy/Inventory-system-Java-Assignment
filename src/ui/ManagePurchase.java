@@ -1,165 +1,229 @@
 package ui;
 
-import java.awt.Color;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.TextArea;
-import javax.swing.ImageIcon;
+import java.awt.*;
+
+import com.github.lgooddatepicker.components.DateTimePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
+import com.github.lgooddatepicker.components.TimePickerSettings;
 
 public class ManagePurchase extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTable table;
-	private JTextField textField_3;
+    public ManagePurchase() {
+        setLayout(new BorderLayout(15, 15));
+        setBackground(Color.WHITE);
 
-	
-	public static void main(String[] args) {
-	    JFrame frame = new JFrame("Manage Purchase");
-	    frame.setContentPane(new ManagePurchase());
-	    frame.setSize(740, 470);
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setLocationRelativeTo(null);
-	    frame.setVisible(true);
-	}
-	/**
-	 * Create the panel.
-	 */
-	public ManagePurchase() {
-		setBackground(new Color(174, 207, 244));
-		setLayout(null);
-		
-		JLabel lblManagepurchase = new JLabel("MANAGE PURCHASE");
-		lblManagepurchase.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblManagepurchase.setBounds(243, 11, 167, 32);
-		add(lblManagepurchase);
-		
-		JLabel lblSupplier = new JLabel("Supplier:");
-		lblSupplier.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblSupplier.setBounds(29, 97, 82, 22);
-		add(lblSupplier);
-		
-		JLabel lblOrderdate = new JLabel("Order Date:");
-		lblOrderdate.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblOrderdate.setBounds(29, 130, 82, 22);
-		add(lblOrderdate);
-		
-		JLabel lblStatus = new JLabel("Status:");
-		lblStatus.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblStatus.setBounds(29, 163, 63, 22);
-		add(lblStatus);
-		
-		JLabel lblNote = new JLabel("Note:");
-		lblNote.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNote.setBounds(29, 196, 63, 22);
-		add(lblNote);
-        
-		
-		JLabel lblProduct = new JLabel("Product:");
-		lblProduct.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblProduct.setBounds(29, 240, 63, 22);
-		add(lblProduct);
-		
-		JLabel lblQtyOrdered = new JLabel("Qty Ordered:");
-		lblQtyOrdered.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblQtyOrdered.setBounds(29, 273, 82, 22);
-		add(lblQtyOrdered);
-		
-		JLabel lblCost = new JLabel("Cost:");
-		lblCost.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblCost.setBounds(29, 306, 63, 22);
-		add(lblCost);
-		
-		textField = new JTextField();
-		textField.setBounds(109, 130, 161, 22);
-		add(textField);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(109, 275, 161, 20);
-		add(textField_1);
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(109, 308, 161, 20);
-		add(textField_2);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(109, 97, 161, 22);
-		add(comboBox);
-		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"draft", "sent", "confirmed", "received"}));
-		comboBox_1.setBounds(109, 163, 161, 22);
-		add(comboBox_1);
-		
-		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setBounds(109, 241, 161, 22);
-		add(comboBox_2);
-		
-		JButton btnAddItem = new JButton("Add Item");
-		btnAddItem.setIcon(new ImageIcon("C:\\Users\\User\\Pictures\\add_16px.png"));
-		btnAddItem.setForeground(new Color(255, 0, 0));
-		btnAddItem.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnAddItem.setBounds(125, 361, 126, 32);
-		add(btnAddItem);
-		
-		JButton btnSavePo = new JButton("Save PO");
-		btnSavePo.setIcon(new ImageIcon("C:\\Users\\User\\Pictures\\save1.png"));
-		btnSavePo.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnSavePo.setBounds(574, 97, 129, 32);
-		add(btnSavePo);
-		
-		JButton btnUpdatePo = new JButton("Update PO");
-		btnUpdatePo.setIcon(new ImageIcon("C:\\Users\\User\\Pictures\\up.png"));
-		btnUpdatePo.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnUpdatePo.setBounds(574, 140, 129, 32);
-		add(btnUpdatePo);
-		
-		JButton btnDeletePo = new JButton("Delete PO");
-		btnDeletePo.setIcon(new ImageIcon("C:\\Users\\User\\Pictures\\delete_bin_16px.png"));
-		btnDeletePo.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnDeletePo.setBounds(574, 183, 129, 32);
-		add(btnDeletePo);
-		
-		JButton btnClear = new JButton("Clear");
-		btnClear.setIcon(new ImageIcon("C:\\Users\\User\\Pictures\\clear_symbol_16px.png"));
-		btnClear.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnClear.setBounds(574, 226, 129, 32);
-		add(btnClear);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(300, 98, 264, 297);
-		add(scrollPane);
-		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Product", "QTY", "Cost"
-			}
-		));
-		scrollPane.setViewportView(table);
-		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(109, 197, 161, 33);
-		add(textField_3);
-		
-	}
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBackground(Color.WHITE);
+
+        mainPanel.add(createAllOrderPanel());
+        mainPanel.add(Box.createVerticalStrut(20));
+        mainPanel.add(createNewOrderPanel());
+
+        add(new JScrollPane(mainPanel), BorderLayout.CENTER);
+    }
+
+    // =====================================================
+    // ALL ORDER PANEL
+    // =====================================================
+    private JPanel createAllOrderPanel() {
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.setBackground(Color.WHITE);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+
+        JLabel title = new JLabel("All Purchase");
+        title.setFont(new Font("Arial", Font.BOLD, 22));
+        panel.add(title, BorderLayout.NORTH);
+
+        JPanel content = new JPanel(new BorderLayout(10, 10));
+        content.setBackground(Color.WHITE);
+
+        JPanel form = new JPanel(new GridBagLayout());
+        form.setBackground(Color.WHITE);
+        GridBagConstraints gbc = baseGbc();
+
+        addLabel(form, gbc, 0, 0, "Purchase ID");
+        addField(form, gbc, 1, 0, new JTextField());
+
+        addLabel(form, gbc, 2, 0, "Supplier Name");
+        addField(form, gbc, 3, 0, new JTextField());
+
+        addLabel(form, gbc, 0, 1, "Total");
+        addField(form, gbc, 1, 1, new JTextField());
+
+        addLabel(form, gbc, 2, 1, "Status");
+        addField(form, gbc, 3, 1,
+                new JComboBox<>(new String[]{"Pending", "Completed", "Cancelled"}));
+
+        // 🔥 PAYMENT + REAL DATETIME PICKER (WEB STYLE)
+        addLabel(form, gbc, 0, 2, "Payment");
+        addField(form, gbc, 1, 2,
+                new JComboBox<>(new String[]{"Cash", "Card", "Transfer"}));
+
+        addLabel(form, gbc, 2, 2, "Received Date");
+        addField(form, gbc, 3, 2, createDateTimePicker());
+
+        JPanel btnRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5));
+        btnRow.setBackground(Color.WHITE);
+
+        btnRow.add(createButton("Search", new Color(25, 135, 84)));
+        btnRow.add(createButton("Edit", new Color(255, 193, 7)));
+        btnRow.add(createButton("Delete", new Color(220, 53, 69)));
+
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 4;
+        form.add(btnRow, gbc);
+        gbc.gridwidth = 1;
+
+        content.add(form, BorderLayout.NORTH);
+
+        JTable table = new JTable(new DefaultTableModel(
+                new String[]{"Order ID", "Supplier", "Order Date", "Total", "Payment", "Status", "Received Date"}, 0
+        ));
+        table.setRowHeight(28);
+
+        content.add(new JScrollPane(table), BorderLayout.CENTER);
+
+        panel.add(content, BorderLayout.CENTER);
+        return panel;
+    }
+
+    // =====================================================
+    // NEW ORDER PANEL (UNCHANGED)
+    // =====================================================
+    private JPanel createNewOrderPanel() {
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        panel.setBackground(Color.WHITE);
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 20, 20));
+
+        JLabel title = new JLabel("New Purchase");
+        title.setFont(new Font("Arial", Font.BOLD, 22));
+        panel.add(title, BorderLayout.NORTH);
+
+        JPanel content = new JPanel(new BorderLayout(10, 10));
+        content.setBackground(Color.WHITE);
+
+        // ---------- FORM ----------
+        JPanel form = new JPanel(new GridBagLayout());
+        form.setBackground(Color.WHITE);
+        GridBagConstraints gbc = baseGbc();
+
+        addLabel(form, gbc, 0, 0, "Supplier Name");
+        addField(form, gbc, 1, 0, new JComboBox<>());
+
+        addLabel(form, gbc, 2, 0, "Product Code");
+        addField(form, gbc, 3, 0, new JComboBox<>());
+
+        addLabel(form, gbc, 0, 1, "Product Name");
+        addField(form, gbc, 1, 1, new JTextField());
+
+        addLabel(form, gbc, 2, 1, "Unit Price");
+        addField(form, gbc, 3, 1, new JTextField());
+
+        addLabel(form, gbc, 0, 2, "Quantity");
+        addField(form, gbc, 1, 2, new JTextField());
+
+        addLabel(form, gbc, 2, 2, "Payment");
+        addField(form, gbc, 3, 2,
+                new JComboBox<>(new String[]{"Cash", "Card", "Transfer"}));
+
+        addLabel(form, gbc, 0, 3, "Status");
+        addField(form, gbc, 1, 3,
+                new JComboBox<>(new String[]{"Pending", "Completed"}));
+
+        addLabel(form, gbc, 2, 3, "Address");
+        addField(form, gbc, 3, 3, new JTextField());
+
+        content.add(form, BorderLayout.NORTH);
+
+        // ---------- TABLE ----------
+        JTable table = new JTable(new DefaultTableModel(
+                new String[]{"Product Code", "Product Name", "Qty", "Unit Price", "Total", "Order Date"}, 0
+        ));
+        table.setRowHeight(28);
+
+        content.add(new JScrollPane(table), BorderLayout.CENTER);
+
+        // ---------- BUTTONS ----------
+        JPanel btnPanel = new JPanel(new GridLayout(1, 5, 10, 0));
+        btnPanel.setBackground(Color.WHITE);
+
+        btnPanel.add(createButton("Add Purchase", new Color(13, 110, 253)));
+        btnPanel.add(createButton("Edit", new Color(255, 193, 7)));
+        btnPanel.add(createButton("Delete", new Color(220, 53, 69)));
+        btnPanel.add(createButton("Search", new Color(25, 135, 84)));
+        btnPanel.add(createButton("Clear", new Color(108, 117, 125)));
+
+        content.add(btnPanel, BorderLayout.SOUTH);
+
+        panel.add(content, BorderLayout.CENTER);
+        return panel;
+    }
+
+
+
+
+    // =====================================================
+    // REAL DATETIME PICKER (CALENDAR + TIME)
+    // =====================================================
+    private DateTimePicker createDateTimePicker() {
+
+        DatePickerSettings dateSettings = new DatePickerSettings();
+        dateSettings.setFormatForDatesCommonEra("yyyy-MM-dd");
+        dateSettings.setAllowKeyboardEditing(false);
+
+        TimePickerSettings timeSettings = new TimePickerSettings();
+        timeSettings.use24HourClockFormat();
+        timeSettings.setAllowKeyboardEditing(false);
+
+        DateTimePicker dateTimePicker =
+                new DateTimePicker(dateSettings, timeSettings);
+
+        dateTimePicker.setPreferredSize(new Dimension(220, 32));
+
+        return dateTimePicker;
+    }
+
+    // =====================================================
+    // HELPERS
+    // =====================================================
+    private GridBagConstraints baseGbc() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(6, 8, 6, 8);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.WEST;
+        return gbc;
+    }
+
+    private void addLabel(JPanel panel, GridBagConstraints gbc,
+                          int x, int y, String text) {
+        gbc.gridx = x;
+        gbc.gridy = y;
+        JLabel label = new JLabel(text + " : ");
+        label.setFont(new Font("Arial", Font.PLAIN, 15));
+        panel.add(label, gbc);
+    }
+
+    private void addField(JPanel panel, GridBagConstraints gbc,
+                          int x, int y, JComponent field) {
+        gbc.gridx = x;
+        gbc.gridy = y;
+        gbc.weightx = 1;
+        field.setPreferredSize(new Dimension(220, 32));
+        panel.add(field, gbc);
+        gbc.weightx = 0;
+    }
+
+    private JButton createButton(String text, Color bg) {
+        JButton btn = new JButton(text);
+        btn.setBackground(bg);
+        btn.setForeground(Color.WHITE);
+        btn.setFont(new Font("Arial", Font.BOLD, 14));
+        btn.setFocusPainted(false);
+        btn.setBorder(BorderFactory.createEmptyBorder(8, 14, 8, 14));
+        return btn;
+    }
 }

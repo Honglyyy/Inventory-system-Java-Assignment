@@ -1,219 +1,188 @@
 package ui;
 
-import java.awt.Color;
-
-
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 public class ManageProduct extends JPanel {
 
-	private static final long serialVersionUID = 1L;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
-	private JTable table;
-	
-	
-	public static void main(String[] args) {
-	    JFrame frame = new JFrame("Manage Product");
-	    frame.setContentPane(new ManageProduct());
-	    frame.setSize(600, 720);
-	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.setLocationRelativeTo(null);
-	    frame.setVisible(true);
-	}
+    public ManageProduct() {
+        setLayout(new BorderLayout(20, 20));
+        setBackground(Color.WHITE);
 
-	/**
-	 * Create the panel.
-	 */
-	public ManageProduct() {
-		setBackground(new Color(174, 207, 244));
-		setLayout(null);
-		
-		JLabel lblManageProduct = new JLabel("MANAGE PRODUCT");
-		lblManageProduct.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblManageProduct.setBounds(228, 22, 141, 29);
-		add(lblManageProduct);
-		
-		JLabel lblProductCode = new JLabel("Product Code:");
-		lblProductCode.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblProductCode.setBounds(41, 62, 93, 29);
-		add(lblProductCode);
-		
-		JLabel lblPrductName = new JLabel("Prduct Name:");
-		lblPrductName.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblPrductName.setBounds(313, 62, 79, 29);
-		add(lblPrductName);
-		
-		JLabel lblCategory = new JLabel("Category:");
-		lblCategory.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblCategory.setBounds(41, 91, 65, 29);
-		add(lblCategory);
-		
-		JLabel lblSupplier = new JLabel("Supplier:");
-		lblSupplier.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblSupplier.setBounds(313, 91, 65, 29);
-		add(lblSupplier);
-		
-		JLabel lblUnitPrice = new JLabel("Unit Price:");
-		lblUnitPrice.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblUnitPrice.setBounds(41, 120, 65, 29);
-		add(lblUnitPrice);
-		
-		JLabel lblCostPrice = new JLabel("Cost Price:");
-		lblCostPrice.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblCostPrice.setBounds(313, 120, 65, 29);
-		add(lblCostPrice);
-		
-		JLabel lblExpirationDate = new JLabel("Expiration Date:");
-		lblExpirationDate.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblExpirationDate.setBounds(41, 152, 109, 29);
-		add(lblExpirationDate);
-		
-		JLabel lblProductLocation = new JLabel("Product Location:");
-		lblProductLocation.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblProductLocation.setBounds(41, 181, 109, 29);
-		add(lblProductLocation);
-		
-		JLabel lblWarehouseZone = new JLabel("Warehouse Zone:");
-		lblWarehouseZone.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblWarehouseZone.setBounds(160, 181, 109, 29);
-		add(lblWarehouseZone);
-		
-		JLabel lblAisle = new JLabel("Aisle:");
-		lblAisle.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblAisle.setBounds(395, 181, 47, 29);
-		add(lblAisle);
-		
-		JLabel lblShelf = new JLabel("Shelf:");
-		lblShelf.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblShelf.setBounds(160, 206, 65, 29);
-		add(lblShelf);
-		
-		JLabel lblDescription = new JLabel("Description:");
-		lblDescription.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblDescription.setBounds(41, 238, 79, 29);
-		add(lblDescription);
-		
-		textField = new JTextField();
-		textField.setBounds(144, 67, 140, 20);
-		add(textField);
-		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(407, 67, 139, 20);
-		add(textField_1);
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(144, 125, 140, 20);
-		add(textField_2);
-		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		textField_3.setBounds(407, 125, 139, 20);
-		add(textField_3);
-		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(144, 157, 402, 20);
-		add(textField_4);
-		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(273, 186, 96, 20);
-		add(textField_5);
-		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(429, 186, 96, 20);
-		add(textField_6);
-		
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
-		textField_7.setBounds(273, 215, 96, 20);
-		add(textField_7);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(144, 95, 140, 22);
-		add(comboBox);
-		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(407, 95, 139, 22);
-		add(comboBox_1);
-		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		textField_8.setBounds(144, 243, 402, 20);
-		add(textField_8);
-		
-		JButton btnUploadImage = new JButton("Upload Img");
-		btnUploadImage.setIcon(new ImageIcon("C:\\Users\\User\\Pictures\\image_16px.png"));
-		btnUploadImage.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnUploadImage.setBounds(41, 299, 132, 40);
-		add(btnUploadImage);
-		
-		JButton btnAddproduct = new JButton("Add Product");
-		btnAddproduct.setIcon(new ImageIcon("C:\\Users\\User\\Pictures\\a.png"));
-		btnAddproduct.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnAddproduct.setBounds(41, 366, 140, 35);
-		add(btnAddproduct);
-		
-		JButton btnUpdate = new JButton("Update");
-		btnUpdate.setIcon(new ImageIcon("C:\\Users\\User\\Pictures\\update_left_rotation_24px.png"));
-		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnUpdate.setBounds(191, 366, 132, 35);
-		add(btnUpdate);
-		
-		JButton btnDelete = new JButton("Delete");
-		btnDelete.setIcon(new ImageIcon("C:\\Users\\User\\Pictures\\delete_bin_16px.png"));
-		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnDelete.setBounds(333, 366, 109, 35);
-		add(btnDelete);
-		
-		JButton btnClear = new JButton("Clear");
-		btnClear.setIcon(new ImageIcon("C:\\Users\\User\\Pictures\\clear_symbol_16px.png"));
-		btnClear.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnClear.setBounds(454, 366, 92, 35);
-		add(btnClear);
-		
-		JLabel lblProductTable = new JLabel("Product Table");
-		lblProductTable.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblProductTable.setBounds(228, 409, 114, 29);
-		add(lblProductTable);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(41, 453, 505, 193);
-		add(scrollPane);
-		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Code", "Name", "Category", "Supplier", "Price", "Stock", "Zone", "Aisle", "Shelf"
-			}
-		));
-		scrollPane.setViewportView(table);
-		
-	}
+        // ================= FORM PANEL =================
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBackground(Color.WHITE);
 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(8, 10, 8, 10);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // ===== Title =====
+        JLabel title = new JLabel("Manage Product");
+        title.setFont(new Font("Arial", Font.BOLD, 26));
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 4;
+        gbc.anchor = GridBagConstraints.CENTER;
+        formPanel.add(title, gbc);
+
+        gbc.gridwidth = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridy++;
+
+        // ===== LEFT COLUMN =====
+        addLabel(formPanel, gbc, 0, "Product Code");
+        JTextField txtCode = new JTextField(20);
+        addField(formPanel, gbc, 1, txtCode);
+
+        addLabel(formPanel, gbc, 2, "Product Name");
+        JTextField txtName = new JTextField(20);
+        addField(formPanel, gbc, 3, txtName);
+
+        // ===== CATEGORY & SUPPLIER COMBO BOX =====
+        gbc.gridy++;
+        addLabel(formPanel, gbc, 0, "Category");
+        JComboBox<String> cmbCategory = new JComboBox<>();
+        addField(formPanel, gbc, 1, cmbCategory);
+
+        addLabel(formPanel, gbc, 2, "Supplier");
+        JComboBox<String> cmbSupplier = new JComboBox<>();
+        addField(formPanel, gbc, 3, cmbSupplier);
+
+
+        // ===== UNIT PRICE & COST PRICE =====
+        gbc.gridy++;
+        addLabel(formPanel, gbc, 0, "Unit Price");
+        JTextField txtUnitPrice = new JTextField(20);
+        addField(formPanel, gbc, 1, txtUnitPrice);
+
+        addLabel(formPanel, gbc, 2, "Cost Price");
+        JTextField txtCostPrice = new JTextField(20);
+        addField(formPanel, gbc, 3, txtCostPrice);
+
+        // ===== WAREHOUSE & AISLE =====
+        gbc.gridy++;
+        addLabel(formPanel, gbc, 0, "Warehouse Zone");
+        JTextField txtZone = new JTextField(20);
+        addField(formPanel, gbc, 1, txtZone);
+
+
+        addLabel(formPanel, gbc, 2, "Aisle");
+        JTextField txtAisle = new JTextField(20);
+        addField(formPanel, gbc, 3, txtAisle);
+
+
+        // ===== SHELF =====
+        gbc.gridy++;
+        addLabel(formPanel, gbc, 0, "Shelf");
+        JTextField txtShelf = new JTextField(20);
+        addField(formPanel, gbc, 1, txtShelf);
+
+        // ===== IMAGE UPLOAD =====
+        gbc.gridy++;
+        addLabel(formPanel, gbc, 0, "Product Image");
+
+        JButton btnImage = new JButton("Choose Image");
+        gbc.gridx = 1;
+        formPanel.add(btnImage, gbc);
+
+        JLabel imagePreview = new JLabel("No Image", SwingConstants.CENTER);
+        imagePreview.setPreferredSize(new Dimension(120, 120));
+        imagePreview.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        gbc.gridx = 2;
+        gbc.gridwidth = 2;
+        formPanel.add(imagePreview, gbc);
+
+        gbc.gridwidth = 1;
+
+        // ===== DESCRIPTION =====
+        gbc.gridy++;
+
+        addLabel(formPanel, gbc, 0, "Description");
+        gbc.gridx = 1;
+        gbc.gridwidth = 3;
+        JTextArea txtDescription = new JTextArea(3, 20);
+        txtDescription.setLineWrap(true);
+        txtDescription.setWrapStyleWord(true);
+        JScrollPane descScroll = new JScrollPane(txtDescription);
+        formPanel.add(descScroll, gbc);
+
+        gbc.gridwidth = 1;
+        // ================= BUTTONS =================
+        gbc.gridy++;
+        gbc.gridx = 0;
+        gbc.gridwidth = 4;
+        gbc.anchor = GridBagConstraints.CENTER;
+
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 5, 10, 0));
+        buttonPanel.setBackground(Color.WHITE);
+
+        JButton btnAdd = createButton("Add Product", new Color(13, 110, 253));
+        JButton btnEdit = createButton("Edit", new Color(255, 193, 7));
+        JButton btnSearch = createButton("Delete", new Color(220, 53, 69));
+        JButton btnDelete = createButton("Search", new Color(25, 135, 84));
+        JButton btnClear = createButton("Clear", new Color(108, 117, 125));
+
+        buttonPanel.add(btnAdd);
+        buttonPanel.add(btnEdit);
+        buttonPanel.add(btnSearch);
+        buttonPanel.add(btnDelete);
+        buttonPanel.add(btnClear);
+
+        formPanel.add(buttonPanel, gbc);
+
+        add(formPanel, BorderLayout.NORTH);
+
+        // ================= TABLE =================
+        JPanel tablePanel = new JPanel(new BorderLayout(10, 10));
+        tablePanel.setBackground(Color.WHITE);
+        tablePanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 20, 20));
+
+        JLabel tableLabel = new JLabel("Product List");
+        tableLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        tablePanel.add(tableLabel, BorderLayout.NORTH);
+
+        JTable table = new JTable();
+        DefaultTableModel model = new DefaultTableModel(
+                new String[]{
+                        "Code", "Name", "Unit Price", "Cost Price",
+                        "Category", "Supplier", "Stock"
+                }, 0
+        );
+        table.setModel(model);
+        table.setRowHeight(28);
+
+        tablePanel.add(new JScrollPane(table), BorderLayout.CENTER);
+        add(tablePanel, BorderLayout.CENTER);
+    }
+
+    // ================= HELPERS =================
+    private void addLabel(JPanel panel, GridBagConstraints gbc, int x, String text) {
+        gbc.gridx = x;
+        JLabel label = new JLabel(text + " : ");
+        label.setFont(new Font("Arial", Font.PLAIN, 15));
+        panel.add(label, gbc);
+    }
+
+    private void addField(JPanel panel, GridBagConstraints gbc, int x, JComponent field) {
+        gbc.gridx = x;
+        gbc.weightx = 1;
+        field.setPreferredSize(new Dimension(220, 32));
+        panel.add(field, gbc);
+        gbc.weightx = 0;
+    }
+
+    private JButton createButton(String text, Color bg) {
+        JButton btn = new JButton(text);
+        btn.setBackground(bg);
+        btn.setForeground(Color.WHITE);
+        btn.setFont(new Font("Arial", Font.BOLD, 14));
+        btn.setFocusPainted(false);
+        btn.setBorder(BorderFactory.createEmptyBorder(8, 14, 8, 14));
+        return btn;
+    }
 }

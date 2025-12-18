@@ -1,89 +1,164 @@
 package ui;
 
-import java.awt.EventQueue;
+import dao.UsersDAO;
+import models.Users;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.Color;
-import javax.swing.DropMode;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JPasswordField;
+import javax.swing.*;
+import java.awt.*;
 
 public class LoginFrame extends JFrame {
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JTextField textField;
-	private JPasswordField passwordField;
+    private JTextField usernameTF;
+    private JPasswordField passwordPF;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginFrame frame = new LoginFrame();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    public LoginFrame() {
+        setTitle("Inventory Manager - Login");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(500, 500);                // Frame size 500x500
+        setLocationRelativeTo(null);      // Center on screen
+        setResizable(false);              // Prevent resizing
 
-	/**
-	 * Create the frame.
-	 */
-	public LoginFrame() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 476, 501);
-		contentPane = new JPanel();
-		contentPane.setBackground(new Color(255, 255, 255));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("Inventory Manager");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 19));
-		lblNewLabel.setBounds(133, 46, 208, 39);
-		contentPane.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("Professional Inventory Management System");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_1.setBounds(80, 84, 349, 19);
-		contentPane.add(lblNewLabel_1);
-		
-		JLabel lblNewLabel_2 = new JLabel("Email Address");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_2.setBounds(86, 132, 153, 25);
-		contentPane.add(lblNewLabel_2);
-		
-		textField = new JTextField();
-		textField.setBounds(86, 168, 271, 39);
-		contentPane.add(textField);
-		textField.setColumns(10);
-		
-		JLabel lblNewLabel_2_1 = new JLabel("Password");
-		lblNewLabel_2_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNewLabel_2_1.setBounds(86, 245, 153, 25);
-		contentPane.add(lblNewLabel_2_1);
-		
-		JButton btnSignin = new JButton("Sign In");
-		btnSignin.setBackground(new Color(0, 128, 255));
-		btnSignin.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnSignin.setBounds(103, 355, 238, 39);
-		contentPane.add(btnSignin);
-		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(86, 281, 271, 39);
-		contentPane.add(passwordField);
+        // Main panel with BorderLayout
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.setBackground(Color.WHITE);
+        add(mainPanel);
 
-	}
+        // ===== TITLE PANEL =====
+        JPanel titlePanel = new JPanel();
+        titlePanel.setBackground(Color.WHITE);
+        titlePanel.setBorder(BorderFactory.createEmptyBorder(40, 10, 10, 10));
+
+        JLabel title = new JLabel("Inventory Manager");
+        title.setFont(new Font("Segoe UI", Font.BOLD, 26));
+
+        JLabel subtitle = new JLabel("Professional Inventory Management System");
+        subtitle.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        subtitle.setForeground(Color.GRAY);
+
+        titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        subtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        titlePanel.add(title);
+        titlePanel.add(Box.createVerticalStrut(10));
+        titlePanel.add(subtitle);
+
+        mainPanel.add(titlePanel, BorderLayout.NORTH);
+
+        // ===== FORM PANEL =====
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBackground(Color.WHITE);
+        formPanel.setBorder(BorderFactory.createEmptyBorder(20, 40, 20, 40));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(12, 12, 12, 12);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1;  // Makes fields stretch full width
+
+        // Username label
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        JLabel usernameLabel = new JLabel("Username");
+        usernameLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        formPanel.add(usernameLabel, gbc);
+
+        // Username field
+        gbc.gridy++;
+        usernameTF = new JTextField();
+        usernameTF.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        usernameTF.setPreferredSize(new Dimension(400, 45));  // Longer field
+        formPanel.add(usernameTF, gbc);
+
+        // Password label
+        gbc.gridy++;
+        JLabel passwordLabel = new JLabel("Password");
+        passwordLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        formPanel.add(passwordLabel, gbc);
+
+        // Password field
+        gbc.gridy++;
+        passwordPF = new JPasswordField();
+        passwordPF.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        passwordPF.setPreferredSize(new Dimension(400, 45)); // Longer field
+        formPanel.add(passwordPF, gbc);
+
+        mainPanel.add(formPanel, BorderLayout.CENTER);
+
+        // ===== BUTTON PANEL =====
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(10, 50, 30, 50));
+
+        JButton btnLogin = new JButton("Sign In");
+        btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        btnLogin.setBackground(new Color(0, 120, 215));
+        btnLogin.setForeground(Color.WHITE);
+        btnLogin.setFocusPainted(false);
+        btnLogin.setPreferredSize(new Dimension(400, 50)); // Full-width button
+
+        buttonPanel.add(btnLogin);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        // ===== LOGIN ACTION =====
+        btnLogin.addActionListener(e -> login());
+
+        // Allow Enter key to submit
+        passwordPF.addActionListener(e -> login());
+    }
+
+    private void login() {
+        String username = usernameTF.getText().trim();
+        String password = new String(passwordPF.getPassword());
+
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Please enter username and password",
+                    "Validation Error",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        UsersDAO usersDAO = new UsersDAO();
+        Users user = usersDAO.login(username, password);
+
+        if (user != null) {
+            if(user.getRole().equals("admin")){
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Welcome " + user.getUsername(),
+                        "Login Successful",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+                new AdminMain();
+                dispose();
+            }
+            else if(user.getRole().equals("staff")){
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Welcome " + user.getUsername(),
+                        "Login Successful",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+                new StaffMain();
+                dispose();
+            }
+        } else {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Invalid username or password",
+                    "Login Failed",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            // Clear password field for security
+            passwordPF.setText("");
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            new LoginFrame().setVisible(true);
+        });
+    }
 }
