@@ -16,7 +16,6 @@ public class UsersDAO {
         // Fixed SQL query - removed the unused role parameter
         String sql = "SELECT * FROM users WHERE username = ? AND password_hash = ?";
 
-        // Using try-with-resources for proper resource management
         try (Connection conn = DBConn.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
@@ -36,7 +35,6 @@ public class UsersDAO {
             return null;
 
         } catch (SQLException e) {
-            // In production, consider logging this error
             System.err.println("Error during login: " + e.getMessage());
             throw new RuntimeException("Database error during login", e);
         }
@@ -65,7 +63,7 @@ public class UsersDAO {
                 user.setRole(role);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(null, e);;
         }
         return user;
     }
@@ -90,7 +88,7 @@ public class UsersDAO {
             }
         }
         catch (Exception e){
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e);
         }
         return list;
     }
@@ -117,7 +115,6 @@ public class UsersDAO {
 
         }
         catch (Exception e){
-            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Error adding user: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         finally {
@@ -145,7 +142,7 @@ public class UsersDAO {
 
         }
         catch (Exception e){
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e);
         }
         finally {
             ps.close();
@@ -166,7 +163,7 @@ public class UsersDAO {
             ps.executeUpdate();
         }
         catch (Exception e){
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, e);
         }
         finally {
             ps.close();
