@@ -90,7 +90,6 @@ public class AdminMain extends JFrame {
         btnOrder.addActionListener(e -> setContent(new ManageOrder()));
         btnPurchase.addActionListener(e -> setContent(new ManagePurchase()));
         btnCustomers.addActionListener(e -> setContent(new ManageCustomers()));
-        btnStock.addActionListener(e -> setContent(new StockMovement()));
         btnReports.addActionListener(e -> setContent(new Report()));
 
         setVisible(true);

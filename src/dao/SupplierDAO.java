@@ -91,7 +91,7 @@ public class SupplierDAO {
         PreparedStatement ps = null;
         try{
             conn = DBConn.getConnection();
-            String sql = "INSERT INTO suppliers (supplier_name, email, phone, address) VALUES ( ?, ?, ?, ?)";
+            String sql = "INSERT INTO suppliers (supplier_name, email, phone, address   ) VALUES ( ?, ?, ?, ?)";
             ps = conn.prepareStatement(sql);
 
             ps.setString(1, supplier.getSupplierName());

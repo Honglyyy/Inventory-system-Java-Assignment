@@ -9,6 +9,30 @@ import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.github.lgooddatepicker.components.TimePickerSettings;
 
 public class ManagePurchase extends JPanel {
+    public JTextField txtAllPurchaseId = new JTextField();
+    public JTextField txtAllSupplierName  = new JTextField();
+    public JTextField txtAllTotal = new JTextField();
+    public JComboBox cmbAllStatus =  new JComboBox<>(new String[]{"Pending", "Completed", "Cancelled"});
+    public JComboBox cmbAllPayment = new JComboBox<>(new String[]{"Cash", "Card", "Transfer"});
+    public JTextField txtAllReceivedDate = new JTextField();
+    JTable tableAllPurchase = new JTable(new DefaultTableModel(
+            new String[]{"Order ID", "Supplier", "Order Date", "Total", "Payment", "Status", "Received Date"}, 0
+    ));
+
+    public JComboBox cmbProductCode = new JComboBox();
+    public JTextField txtSupplierName  = new JTextField();
+    public JTextField txtProductName  = new JTextField();
+    public JTextField txtCostPrice = new JTextField();
+    public JTextField txtQuantity = new  JTextField();
+    public JComboBox cmbStatus =  new JComboBox<>(new String[]{"Pending", "Completed", "Cancelled"});
+    public JComboBox cmbPayment = new JComboBox<>(new String[]{"Cash", "Card", "Transfer"});
+
+    // **NEW: Total text field**
+    public JTextField txtTotal = new JTextField();
+
+    JTable tablePurchase = new JTable(new DefaultTableModel(
+            new String[]{"Product Code", "Product Name", "Qty", "Unit Price",}, 0
+    ));
 
     public ManagePurchase() {
         setLayout(new BorderLayout(15, 15));
@@ -45,25 +69,22 @@ public class ManagePurchase extends JPanel {
         GridBagConstraints gbc = baseGbc();
 
         addLabel(form, gbc, 0, 0, "Purchase ID");
-        addField(form, gbc, 1, 0, new JTextField());
+        addField(form, gbc, 1, 0, txtAllPurchaseId);
 
         addLabel(form, gbc, 2, 0, "Supplier Name");
-        addField(form, gbc, 3, 0, new JTextField());
+        addField(form, gbc, 3, 0, txtAllSupplierName);
 
         addLabel(form, gbc, 0, 1, "Total");
-        addField(form, gbc, 1, 1, new JTextField());
+        addField(form, gbc, 1, 1,txtAllTotal);
 
         addLabel(form, gbc, 2, 1, "Status");
-        addField(form, gbc, 3, 1,
-                new JComboBox<>(new String[]{"Pending", "Completed", "Cancelled"}));
+        addField(form, gbc, 3, 1, cmbAllStatus);
 
-        // 🔥 PAYMENT + REAL DATETIME PICKER (WEB STYLE)
         addLabel(form, gbc, 0, 2, "Payment");
-        addField(form, gbc, 1, 2,
-                new JComboBox<>(new String[]{"Cash", "Card", "Transfer"}));
+        addField(form, gbc, 1, 2,cmbAllPayment);
 
         addLabel(form, gbc, 2, 2, "Received Date");
-        addField(form, gbc, 3, 2, createDateTimePicker());
+        addField(form, gbc, 3, 2, txtAllReceivedDate);
 
         JPanel btnRow = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5));
         btnRow.setBackground(Color.WHITE);
@@ -80,19 +101,16 @@ public class ManagePurchase extends JPanel {
 
         content.add(form, BorderLayout.NORTH);
 
-        JTable table = new JTable(new DefaultTableModel(
-                new String[]{"Order ID", "Supplier", "Order Date", "Total", "Payment", "Status", "Received Date"}, 0
-        ));
-        table.setRowHeight(28);
+        tableAllPurchase.setRowHeight(28);
 
-        content.add(new JScrollPane(table), BorderLayout.CENTER);
+        content.add(new JScrollPane(tableAllPurchase), BorderLayout.CENTER);
 
         panel.add(content, BorderLayout.CENTER);
         return panel;
     }
 
     // =====================================================
-    // NEW ORDER PANEL (UNCHANGED)
+    // NEW ORDER PANEL
     // =====================================================
     private JPanel createNewOrderPanel() {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
@@ -112,40 +130,54 @@ public class ManagePurchase extends JPanel {
         GridBagConstraints gbc = baseGbc();
 
         addLabel(form, gbc, 0, 0, "Supplier Name");
-        addField(form, gbc, 1, 0, new JComboBox<>());
+        addField(form, gbc, 1, 0,txtSupplierName);
 
         addLabel(form, gbc, 2, 0, "Product Code");
-        addField(form, gbc, 3, 0, new JComboBox<>());
+        addField(form, gbc, 3, 0,cmbProductCode);
 
         addLabel(form, gbc, 0, 1, "Product Name");
-        addField(form, gbc, 1, 1, new JTextField());
+        addField(form, gbc, 1, 1, txtProductName);
 
-        addLabel(form, gbc, 2, 1, "Unit Price");
-        addField(form, gbc, 3, 1, new JTextField());
+        addLabel(form, gbc, 2, 1, "Cost Price");
+        addField(form, gbc, 3, 1,txtCostPrice);
 
         addLabel(form, gbc, 0, 2, "Quantity");
-        addField(form, gbc, 1, 2, new JTextField());
+        addField(form, gbc, 1, 2, txtQuantity);
 
         addLabel(form, gbc, 2, 2, "Payment");
-        addField(form, gbc, 3, 2,
-                new JComboBox<>(new String[]{"Cash", "Card", "Transfer"}));
+        addField(form, gbc, 3, 2, cmbPayment);
 
         addLabel(form, gbc, 0, 3, "Status");
-        addField(form, gbc, 1, 3,
-                new JComboBox<>(new String[]{"Pending", "Completed"}));
-
-        addLabel(form, gbc, 2, 3, "Address");
-        addField(form, gbc, 3, 3, new JTextField());
+        addField(form, gbc, 1, 3,cmbStatus);
 
         content.add(form, BorderLayout.NORTH);
 
-        // ---------- TABLE ----------
-        JTable table = new JTable(new DefaultTableModel(
-                new String[]{"Product Code", "Product Name", "Qty", "Unit Price", "Total", "Order Date"}, 0
-        ));
-        table.setRowHeight(28);
+        // ---------- TABLE + TOTAL ----------
+        JPanel tablePanel = new JPanel(new BorderLayout(5, 5));
+        tablePanel.setBackground(Color.WHITE);
 
-        content.add(new JScrollPane(table), BorderLayout.CENTER);
+        tablePurchase.setRowHeight(28);
+        tablePanel.add(new JScrollPane(tablePurchase), BorderLayout.CENTER);
+
+        // **NEW: Total Panel at bottom of table**
+        JPanel totalPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
+        totalPanel.setBackground(Color.WHITE);
+
+        JLabel lblTotal = new JLabel("Total Amount : ");
+        lblTotal.setFont(new Font("Arial", Font.BOLD, 16));
+
+        txtTotal.setPreferredSize(new Dimension(200, 35));
+        txtTotal.setFont(new Font("Arial", Font.BOLD, 16));
+        txtTotal.setEditable(false); // Make it read-only
+        txtTotal.setHorizontalAlignment(JTextField.RIGHT);
+        txtTotal.setText("$0.00");
+
+        totalPanel.add(lblTotal);
+        totalPanel.add(txtTotal);
+
+        tablePanel.add(totalPanel, BorderLayout.SOUTH);
+
+        content.add(tablePanel, BorderLayout.CENTER);
 
         // ---------- BUTTONS ----------
         JPanel btnPanel = new JPanel(new GridLayout(1, 5, 10, 0));
@@ -161,30 +193,6 @@ public class ManagePurchase extends JPanel {
 
         panel.add(content, BorderLayout.CENTER);
         return panel;
-    }
-
-
-
-
-    // =====================================================
-    // REAL DATETIME PICKER (CALENDAR + TIME)
-    // =====================================================
-    private DateTimePicker createDateTimePicker() {
-
-        DatePickerSettings dateSettings = new DatePickerSettings();
-        dateSettings.setFormatForDatesCommonEra("yyyy-MM-dd");
-        dateSettings.setAllowKeyboardEditing(false);
-
-        TimePickerSettings timeSettings = new TimePickerSettings();
-        timeSettings.use24HourClockFormat();
-        timeSettings.setAllowKeyboardEditing(false);
-
-        DateTimePicker dateTimePicker =
-                new DateTimePicker(dateSettings, timeSettings);
-
-        dateTimePicker.setPreferredSize(new Dimension(220, 32));
-
-        return dateTimePicker;
     }
 
     // =====================================================
@@ -225,5 +233,23 @@ public class ManagePurchase extends JPanel {
         btn.setFocusPainted(false);
         btn.setBorder(BorderFactory.createEmptyBorder(8, 14, 8, 14));
         return btn;
+    }
+
+    // **NEW: Helper method to calculate and update total**
+    public void calculateTotal() {
+        double total = 0.0;
+        DefaultTableModel model = (DefaultTableModel) tablePurchase.getModel();
+
+        for(int i = 0; i < model.getRowCount(); i++) {
+            try {
+                double qty = Double.parseDouble(model.getValueAt(i, 2).toString());
+                double price = Double.parseDouble(model.getValueAt(i, 3).toString());
+                total += qty * price;
+            } catch(Exception e) {
+                // Skip invalid rows
+            }
+        }
+
+        txtTotal.setText(String.format("$%.2f", total));
     }
 }
