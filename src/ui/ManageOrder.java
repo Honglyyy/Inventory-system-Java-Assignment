@@ -27,7 +27,7 @@ public class ManageOrder extends JPanel {
 
     // New Order Panel Fields
     public JComboBox<String> cmbProductCode = new JComboBox<>();
-    public JTextField txtCustomerName = new JTextField();
+    public JComboBox<String> cmbCustomerName = new JComboBox<>(); // Changed from JTextField
     public JTextField txtProductName = new JTextField();
     public JTextField txtUnitPrice = new JTextField();
     public JTextField txtQuantity = new JTextField();
@@ -132,6 +132,20 @@ public class ManageOrder extends JPanel {
             }
         });
 
+        // Add double-click listener to show order items
+        tableAllOrders.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int row = tableAllOrders.getSelectedRow();
+                    if (row >= 0) {
+                        int orderId = Integer.parseInt(tableAllOrders.getValueAt(row, 0).toString());
+                        showOrderItemsDialog(orderId);
+                    }
+                }
+            }
+        });
+
         content.add(new JScrollPane(tableAllOrders), BorderLayout.CENTER);
 
         panel.add(content, BorderLayout.CENTER);
@@ -159,7 +173,7 @@ public class ManageOrder extends JPanel {
         GridBagConstraints gbc = baseGbc();
 
         addLabel(form, gbc, 0, 0, "Customer Name");
-        addField(form, gbc, 1, 0, txtCustomerName);
+        addField(form, gbc, 1, 0, cmbCustomerName); // Changed to combo box
 
         addLabel(form, gbc, 2, 0, "Product Code");
         addField(form, gbc, 3, 0, cmbProductCode);
@@ -269,7 +283,19 @@ public class ManageOrder extends JPanel {
     }
 
     private void loadCustomerNames() {
-        // You can add autocomplete here later
+        try (Connection conn = DBConn.getConnection();
+             PreparedStatement ps = conn.prepareStatement("SELECT customer_name FROM customers ORDER BY customer_name");
+             ResultSet rs = ps.executeQuery()) {
+
+            cmbCustomerName.removeAllItems();
+            cmbCustomerName.addItem("--- Select Customer ---");
+
+            while (rs.next()) {
+                cmbCustomerName.addItem(rs.getString("customer_name"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error loading customers: " + e.getMessage());
+        }
     }
 
     private void loadProductDetails() {
@@ -458,8 +484,8 @@ public class ManageOrder extends JPanel {
     // =====================================================
     private void submitOrder() {
         try {
-            if (txtCustomerName.getText().trim().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter customer name!");
+            if (cmbCustomerName.getSelectedIndex() == 0) {
+                JOptionPane.showMessageDialog(this, "Please select a customer!");
                 return;
             }
 
@@ -469,7 +495,8 @@ public class ManageOrder extends JPanel {
             }
 
             OrderDAO dao = new OrderDAO();
-            int customerId = dao.getCustomerIdByName(txtCustomerName.getText().trim());
+            String customerName = (String) cmbCustomerName.getSelectedItem();
+            int customerId = dao.getCustomerIdByName(customerName);
 
             if (customerId == -1) {
                 JOptionPane.showMessageDialog(this, "Customer not found!");
@@ -631,11 +658,112 @@ public class ManageOrder extends JPanel {
         // Add your search implementation here
     }
 
+    private void showOrderItemsDialog(int orderId) {
+        try (Connection conn = DBConn.getConnection();
+             PreparedStatement ps = conn.prepareStatement(
+                     "SELECT oi.product_id, p.product_code, p.product_name, " +
+                             "oi.quantity, oi.unit_price, oi.subtotal " +
+                             "FROM order_items oi " +
+                             "JOIN products p ON oi.product_id = p.product_id " +
+                             "WHERE oi.order_id = ? " +
+                             "ORDER BY oi.order_item_id")) {
+
+            ps.setInt(1, orderId);
+            ResultSet rs = ps.executeQuery();
+
+            // Create table model
+            DefaultTableModel model = new DefaultTableModel(
+                    new String[]{"Product Code", "Product Name", "Quantity", "Unit Price", "Subtotal"}, 0
+            ) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+
+            double totalAmount = 0.0;
+
+            while (rs.next()) {
+                String productCode = rs.getString("product_code");
+                String productName = rs.getString("product_name");
+                int quantity = rs.getInt("quantity");
+                double unitPrice = rs.getDouble("unit_price");
+                double subtotal = rs.getDouble("subtotal");
+
+                model.addRow(new Object[]{
+                        productCode,
+                        productName,
+                        quantity,
+                        String.format("$%.2f", unitPrice),
+                        String.format("$%.2f", subtotal)
+                });
+
+                totalAmount += subtotal;
+            }
+
+            // Create table
+            JTable itemsTable = new JTable(model);
+            itemsTable.setRowHeight(28);
+            itemsTable.setFont(new Font("Arial", Font.PLAIN, 13));
+            itemsTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 13));
+
+            // Create dialog
+            JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),
+                    "Order Items - Order #" + orderId, true);
+            dialog.setLayout(new BorderLayout(10, 10));
+
+            // Add table in scroll pane
+            JScrollPane scrollPane = new JScrollPane(itemsTable);
+            scrollPane.setPreferredSize(new Dimension(700, 300));
+            dialog.add(scrollPane, BorderLayout.CENTER);
+
+            // Add total panel at bottom
+            JPanel totalPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 10));
+            totalPanel.setBackground(Color.WHITE);
+
+            JLabel lblTotal = new JLabel("Total Amount:");
+            lblTotal.setFont(new Font("Arial", Font.BOLD, 16));
+
+            JLabel lblTotalValue = new JLabel(String.format("$%.2f", totalAmount));
+            lblTotalValue.setFont(new Font("Arial", Font.BOLD, 18));
+            lblTotalValue.setForeground(new Color(13, 110, 253));
+
+            totalPanel.add(lblTotal);
+            totalPanel.add(lblTotalValue);
+
+            dialog.add(totalPanel, BorderLayout.SOUTH);
+
+            // Close button
+            JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            btnPanel.setBackground(Color.WHITE);
+            JButton btnClose = createButton("Close", new Color(108, 117, 125));
+            btnClose.addActionListener(e -> dialog.dispose());
+            btnPanel.add(btnClose);
+
+            JPanel bottomPanel = new JPanel(new BorderLayout());
+            bottomPanel.setBackground(Color.WHITE);
+            bottomPanel.add(totalPanel, BorderLayout.NORTH);
+            bottomPanel.add(btnPanel, BorderLayout.SOUTH);
+
+            dialog.add(bottomPanel, BorderLayout.SOUTH);
+
+            dialog.pack();
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error loading order items: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
     // =====================================================
     // HELPER METHODS
     // =====================================================
     private void clearNewOrderFields() {
-        txtCustomerName.setText("");
+        cmbCustomerName.setSelectedIndex(0); // Changed from setText to setSelectedIndex
         cmbProductCode.setSelectedIndex(0);
         txtQuantity.setText("");
         txtAddress.setText("");

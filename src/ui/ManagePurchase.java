@@ -135,6 +135,20 @@ public class ManagePurchase extends JPanel {
             }
         });
 
+        // Add double-click listener to show purchase order items
+        tableAllPurchase.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int row = tableAllPurchase.getSelectedRow();
+                    if (row >= 0) {
+                        int poId = Integer.parseInt(tableAllPurchase.getValueAt(row, 0).toString());
+                        showPurchaseItemsDialog(poId);
+                    }
+                }
+            }
+        });
+
         content.add(new JScrollPane(tableAllPurchase), BorderLayout.CENTER);
 
         panel.add(content, BorderLayout.CENTER);
@@ -595,6 +609,105 @@ public class ManagePurchase extends JPanel {
         }
 
         // Add your search implementation here
+    }
+
+    private void showPurchaseItemsDialog(int poId) {
+        try (Connection conn = DBConn.getConnection();
+             PreparedStatement ps = conn.prepareStatement(
+                     "SELECT poi.product_id, p.product_code, p.product_name, " +
+                             "poi.quantity_ordered, poi.unit_cost, poi.subtotal " +
+                             "FROM purchase_order_items poi " +
+                             "JOIN products p ON poi.product_id = p.product_id " +
+                             "WHERE poi.po_id = ? " +
+                             "ORDER BY poi.po_item_id")) {
+
+            ps.setInt(1, poId);
+            ResultSet rs = ps.executeQuery();
+
+            // Create table model
+            DefaultTableModel model = new DefaultTableModel(
+                    new String[]{"Product Code", "Product Name", "Quantity", "Unit Cost", "Subtotal"}, 0
+            ) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+
+            double totalAmount = 0.0;
+
+            while (rs.next()) {
+                String productCode = rs.getString("product_code");
+                String productName = rs.getString("product_name");
+                int quantity = rs.getInt("quantity_ordered");
+                double unitCost = rs.getDouble("unit_cost");
+                double subtotal = rs.getDouble("subtotal");
+
+                model.addRow(new Object[]{
+                        productCode,
+                        productName,
+                        quantity,
+                        String.format("$%.2f", unitCost),
+                        String.format("$%.2f", subtotal)
+                });
+
+                totalAmount += subtotal;
+            }
+
+            // Create table
+            JTable itemsTable = new JTable(model);
+            itemsTable.setRowHeight(28);
+            itemsTable.setFont(new Font("Arial", Font.PLAIN, 13));
+            itemsTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 13));
+
+            // Create dialog
+            JDialog dialog = new JDialog((Frame) SwingUtilities.getWindowAncestor(this),
+                    "Purchase Order Items - PO #" + poId, true);
+            dialog.setLayout(new BorderLayout(10, 10));
+
+            // Add table in scroll pane
+            JScrollPane scrollPane = new JScrollPane(itemsTable);
+            scrollPane.setPreferredSize(new Dimension(700, 300));
+            dialog.add(scrollPane, BorderLayout.CENTER);
+
+            // Add total panel at bottom
+            JPanel totalPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 10));
+            totalPanel.setBackground(Color.WHITE);
+
+            JLabel lblTotal = new JLabel("Total Amount:");
+            lblTotal.setFont(new Font("Arial", Font.BOLD, 16));
+
+            JLabel lblTotalValue = new JLabel(String.format("$%.2f", totalAmount));
+            lblTotalValue.setFont(new Font("Arial", Font.BOLD, 18));
+            lblTotalValue.setForeground(new Color(13, 110, 253));
+
+            totalPanel.add(lblTotal);
+            totalPanel.add(lblTotalValue);
+
+            // Close button
+            JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            btnPanel.setBackground(Color.WHITE);
+            JButton btnClose = createButton("Close", new Color(108, 117, 125));
+            btnClose.addActionListener(e -> dialog.dispose());
+            btnPanel.add(btnClose);
+
+            JPanel bottomPanel = new JPanel(new BorderLayout());
+            bottomPanel.setBackground(Color.WHITE);
+            bottomPanel.add(totalPanel, BorderLayout.NORTH);
+            bottomPanel.add(btnPanel, BorderLayout.SOUTH);
+
+            dialog.add(bottomPanel, BorderLayout.SOUTH);
+
+            dialog.pack();
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error loading purchase order items: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }
 
     // =====================================================
