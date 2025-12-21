@@ -49,7 +49,6 @@ public class StaffMain extends JFrame {
         JButton btnOrder = new JButton("Manage Order");
         JButton btnPurchase = new JButton("Manage Purchase");
         JButton btnCustomers = new JButton("Manage Customers");
-        JButton btnStock = new JButton("Stock movement");
         JButton btnReports = new JButton("Report");
 
         sidebar.add(btnDashboard);
@@ -60,7 +59,6 @@ public class StaffMain extends JFrame {
         sidebar.add(btnOrder);
         sidebar.add(btnPurchase);
         sidebar.add(btnCustomers);
-        sidebar.add(btnStock);
         sidebar.add(btnReports);
 
         add(sidebar, BorderLayout.WEST);
