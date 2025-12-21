@@ -23,13 +23,13 @@ public class AdminMain extends JFrame {
         header.setBackground(new Color(230, 230, 230));
 
         
-        JLabel logo = new JLabel("LOGO");
-        logo.setHorizontalAlignment(SwingConstants.LEFT);
-        logo.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        header.add(logo, BorderLayout.WEST);
+//        JLabel logo = new JLabel("LOGO");
+//        logo.setHorizontalAlignment(SwingConstants.LEFT);
+//        logo.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+//        header.add(logo, BorderLayout.WEST);
 
         // Company name center
-        JLabel companyName = new JLabel("My Company Name");
+        JLabel companyName = new JLabel("Inventory Management System");
         companyName.setFont(new Font("Arial", Font.BOLD, 24));
         companyName.setHorizontalAlignment(SwingConstants.CENTER);
         header.add(companyName, BorderLayout.CENTER);
